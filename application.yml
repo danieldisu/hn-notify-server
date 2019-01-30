@@ -1,0 +1,21 @@
+spring:
+  main:
+    banner-mode: console
+
+  datasource:
+    url: jdbc:postgresql://${docker.host}:5432/hnnotify
+    username: danieldisu
+    password: 123456
+    platform: postgres
+
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+      jdbc:
+        lob:
+          non_contextual_creation: true
+
+docker:
+  host: "${DOCKER_IP:localhost}"
