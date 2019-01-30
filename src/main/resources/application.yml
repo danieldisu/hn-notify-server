@@ -17,5 +17,8 @@ spring:
         lob:
           non_contextual_creation: true
 
+hnnotify:
+  maxStoriesToFetch: 10
+
 docker:
   host: "${DOCKER_IP:localhost}"
