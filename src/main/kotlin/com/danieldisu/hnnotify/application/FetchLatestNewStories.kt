@@ -5,8 +5,8 @@ import com.danieldisu.hnnotify.framework.clients.NewStoriesClient
 import com.danieldisu.hnnotify.framework.clients.StoryDetailClient
 import com.danieldisu.hnnotify.framework.errors.ErrorHandler
 import com.danieldisu.hnnotify.framework.reactor.onErrorContinue
-import com.danieldisu.hnnotify.framework.repositories.StoryRepository
-import com.danieldisu.hnnotify.framework.repositories.data.StoryDBO
+import com.danieldisu.hnnotify.framework.repositories.story.StoryRepository
+import com.danieldisu.hnnotify.framework.repositories.story.data.StoryDBO
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
