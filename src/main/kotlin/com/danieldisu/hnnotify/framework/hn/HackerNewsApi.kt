@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.bodyToMono
 import reactor.core.publisher.Mono
 
 @Component
-class HackerNewsApiClient {
+class HackerNewsApi {
 
     private val webClient = WebClient.create("https://hacker-news.firebaseio.com/v0")
 

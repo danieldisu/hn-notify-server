@@ -3,8 +3,8 @@ package com.danieldisu.hnnotify.application
 import com.danieldisu.hnnotify.domain.data.Story
 import com.danieldisu.hnnotify.framework.errors.ErrorHandler
 import com.danieldisu.hnnotify.framework.reactor.onErrorContinue
-import com.danieldisu.hnnotify.framework.repositories.NewStoriesRepository
-import com.danieldisu.hnnotify.framework.repositories.StoryDetailRepository
+import com.danieldisu.hnnotify.framework.clients.NewStoriesClient
+import com.danieldisu.hnnotify.framework.clients.StoryDetailClient
 import com.danieldisu.hnnotify.framework.repositories.StoryRepository
 import com.danieldisu.hnnotify.framework.repositories.data.StoryDBO
 import org.springframework.beans.factory.annotation.Value
@@ -15,8 +15,8 @@ import java.time.LocalTime
 
 @Service
 class FetchLatestPosts(
-    private val newStoriesRepository: NewStoriesRepository,
-    private val storyDetailRepository: StoryDetailRepository,
+    private val newStoriesClient: NewStoriesClient,
+    private val storyDetailClient: StoryDetailClient,
     private val storyRepository: StoryRepository,
     private val errorHandler: ErrorHandler
 ) {
@@ -25,7 +25,7 @@ class FetchLatestPosts(
     var maxStoriesToFetch: Int = 0
 
     fun execute(): Mono<List<Story>> {
-        return newStoriesRepository.get()
+        return newStoriesClient.get()
             .map { limitTheNumberOfStories(it) }
             .onErrorMap { ErrorFetchingNewStories(LocalTime.now(), it) }
             .doOnError(errorHandler::handle)
@@ -43,7 +43,7 @@ class FetchLatestPosts(
 
     private fun getStoriesAsFlux(storyIds: List<String>): Flux<Story> {
         return Flux.merge(storyIds.map { id ->
-            storyDetailRepository.get(id)
+            storyDetailClient.get(id)
                 .flatMap { saveInDatabase(it) }
                 .onErrorMap { ErrorFetchingStory(id, it) }
                 .doOnError(errorHandler::handle)
