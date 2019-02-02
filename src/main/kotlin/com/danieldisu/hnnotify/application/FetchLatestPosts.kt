@@ -5,6 +5,8 @@ import com.danieldisu.hnnotify.framework.errors.ErrorHandler
 import com.danieldisu.hnnotify.framework.reactor.onErrorContinue
 import com.danieldisu.hnnotify.framework.repositories.NewStoriesRepository
 import com.danieldisu.hnnotify.framework.repositories.StoryDetailRepository
+import com.danieldisu.hnnotify.framework.repositories.StoryRepository
+import com.danieldisu.hnnotify.framework.repositories.data.StoryDBO
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
@@ -15,6 +17,7 @@ import java.time.LocalTime
 class FetchLatestPosts(
     private val newStoriesRepository: NewStoriesRepository,
     private val storyDetailRepository: StoryDetailRepository,
+    private val storyRepository: StoryRepository,
     private val errorHandler: ErrorHandler
 ) {
 
@@ -41,11 +44,25 @@ class FetchLatestPosts(
     private fun getStoriesAsFlux(storyIds: List<String>): Flux<Story> {
         return Flux.merge(storyIds.map { id ->
             storyDetailRepository.get(id)
+                .flatMap { saveInDatabase(it) }
                 .onErrorMap { ErrorFetchingStory(id, it) }
                 .doOnError(errorHandler::handle)
                 .onErrorContinue()
         })
     }
+
+    private fun saveInDatabase(story: Story): Mono<Story> {
+        return Mono.fromCallable {
+            storyRepository.save(
+                StoryDBO(
+                    id = story.id,
+                    title = story.title
+                )
+            )
+            story
+        }
+    }
+
 
 }
 
