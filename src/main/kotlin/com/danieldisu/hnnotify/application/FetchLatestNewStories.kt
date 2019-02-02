@@ -1,10 +1,10 @@
 package com.danieldisu.hnnotify.application
 
 import com.danieldisu.hnnotify.domain.data.Story
-import com.danieldisu.hnnotify.framework.errors.ErrorHandler
-import com.danieldisu.hnnotify.framework.reactor.onErrorContinue
 import com.danieldisu.hnnotify.framework.clients.NewStoriesClient
 import com.danieldisu.hnnotify.framework.clients.StoryDetailClient
+import com.danieldisu.hnnotify.framework.errors.ErrorHandler
+import com.danieldisu.hnnotify.framework.reactor.onErrorContinue
 import com.danieldisu.hnnotify.framework.repositories.StoryRepository
 import com.danieldisu.hnnotify.framework.repositories.data.StoryDBO
 import org.springframework.beans.factory.annotation.Value
@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono
 import java.time.LocalTime
 
 @Service
-class FetchLatestPosts(
+class FetchLatestNewStories(
     private val newStoriesClient: NewStoriesClient,
     private val storyDetailClient: StoryDetailClient,
     private val storyRepository: StoryRepository,
