@@ -1,13 +1,10 @@
 package com.danieldisu.hnnotify.framework.repositories.interest
 
 import com.danieldisu.hnnotify.framework.repositories.interest.data.InterestDBO
-import org.springframework.data.repository.Repository
+import org.springframework.data.repository.CrudRepository
 
 
-interface InterestRepository : Repository<InterestDBO, String> {
+interface InterestRepository : CrudRepository<InterestDBO, String> {
 
     fun findAllByUserId(userId: String): List<InterestDBO>
-
-    fun save(interestDBO: InterestDBO)
-
 }

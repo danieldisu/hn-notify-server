@@ -1,9 +1,9 @@
 package com.danieldisu.hnnotify.framework.controllers
 
-import com.danieldisu.hnnotify.application.AddNewInterestForUser
-import com.danieldisu.hnnotify.application.GetAllUserInterests
+import com.danieldisu.hnnotify.application.*
 import com.danieldisu.hnnotify.domain.data.Interest
 import com.danieldisu.hnnotify.framework.controllers.data.InterestDTO
+import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
@@ -32,4 +32,11 @@ class InterestsController(
             .map { interests -> interests.map { InterestDTO(it.interestName) } }
     }
 
+    @ExceptionHandler(ErrorAddingNewInterest::class)
+    fun handleErrorAddingNewInterest(exception: ErrorAddingNewInterest): ResponseEntity<Unit> {
+        return when (exception) {
+            is InterestAlreadyPresent -> ResponseEntity.status(HttpStatus.CONFLICT).build()
+            is UnknownErrorAddingNewInterest -> ResponseEntity.badRequest().build()
+        }
+    }
 }
