@@ -28,7 +28,6 @@ class FetchLatestNewStories(
         return newStoriesClient.get()
             .map { limitTheNumberOfStories(it) }
             .onErrorMap { ErrorFetchingNewStories(LocalTime.now(), it) }
-            .doOnError(errorHandler::handle)
             .flatMapMany { storyIds -> getStoriesAsFlux(storyIds) }
             .collectList()
     }
@@ -46,7 +45,6 @@ class FetchLatestNewStories(
             storyDetailClient.get(id)
                 .flatMap { saveInDatabase(it) }
                 .onErrorMap { ErrorFetchingStory(id, it) }
-                .doOnError(errorHandler::handle)
                 .onErrorContinue()
         })
     }
