@@ -21,7 +21,7 @@ spring:
           non_contextual_creation: true
 
 hnnotify:
-  maxStoriesToFetch: 10
+  maxStoriesToFetch: 100
 
 docker:
   host: "${DOCKER_IP:localhost}"

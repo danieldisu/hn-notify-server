@@ -43,6 +43,7 @@ class FetchLatestNewStories(
     private fun getStoriesAsFlux(storyIds: List<String>): Flux<Story> {
         return Flux.merge(storyIds.map { id ->
             storyDetailClient.get(id)
+                .map { it.toStory() }
                 .flatMap { saveInDatabase(it) }
                 .onErrorMap { ErrorFetchingStory(id, it) }
                 .onErrorContinue()

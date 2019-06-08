@@ -14,7 +14,7 @@ class FetchLatestNewStoriesJob(private val fetchLatestNewStories: FetchLatestNew
     private val logger = LoggerFactory.getLogger(javaClass)
 
 
-    @Scheduled(fixedDelay = twentySeconds)
+    @Scheduled(fixedDelay = twentySeconds, initialDelay = 0)
     fun fetchLatestNewStories() {
         logger.info("Starting FetchLatestNewStoriesJob")
         fetchLatestNewStories.execute()
