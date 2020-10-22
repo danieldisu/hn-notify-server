@@ -1,6 +1,6 @@
 package com.danieldisu.hnnotify.framework.repositories.interest
 
-import com.danieldisu.hnnotify.framework.repositories.interest.data.InterestDBO
+import com.danieldisu.hnnotify.framework.repositories.data.InterestDBO
 import org.springframework.data.repository.CrudRepository
 
 

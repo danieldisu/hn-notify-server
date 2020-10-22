@@ -1,4 +1,4 @@
-package com.danieldisu.hnnotify.framework.repositories.interest.data
+package com.danieldisu.hnnotify.framework.repositories.data
 
 import javax.persistence.Column
 import javax.persistence.Entity

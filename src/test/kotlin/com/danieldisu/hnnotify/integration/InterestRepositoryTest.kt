@@ -1,8 +1,8 @@
 package com.danieldisu.hnnotify.integration
 
 import com.danieldisu.hnnotify.framework.repositories.interest.InterestRepository
-import com.danieldisu.hnnotify.framework.repositories.interest.data.InterestDBO
-import com.danieldisu.hnnotify.framework.repositories.interest.data.UserDBO
+import com.danieldisu.hnnotify.framework.repositories.data.InterestDBO
+import com.danieldisu.hnnotify.framework.repositories.data.UserDBO
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.springframework.beans.factory.annotation.Autowired

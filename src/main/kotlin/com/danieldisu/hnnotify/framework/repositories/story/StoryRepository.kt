@@ -1,6 +1,6 @@
 package com.danieldisu.hnnotify.framework.repositories.story
 
-import com.danieldisu.hnnotify.framework.repositories.story.data.StoryDBO
+import com.danieldisu.hnnotify.framework.repositories.data.StoryDBO
 import org.springframework.data.repository.Repository
 
 interface StoryRepository : Repository<StoryDBO, String> {

@@ -2,8 +2,8 @@ package com.danieldisu.hnnotify.application
 
 import com.danieldisu.hnnotify.domain.data.Interest
 import com.danieldisu.hnnotify.framework.repositories.interest.InterestRepository
-import com.danieldisu.hnnotify.framework.repositories.interest.data.InterestDBO
-import com.danieldisu.hnnotify.framework.repositories.interest.data.UserDBO
+import com.danieldisu.hnnotify.framework.repositories.data.InterestDBO
+import com.danieldisu.hnnotify.framework.repositories.data.UserDBO
 import com.danieldisu.hnnotify.framework.repositories.user.UserRepository
 import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
