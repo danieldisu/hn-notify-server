@@ -8,26 +8,26 @@ const val uniqueInterestNameConstraint = "uniqueInterestNameConstraint"
 
 @Entity
 @Table(
-    name = "interest",
-    uniqueConstraints = [
-        UniqueConstraint(
-            name = uniqueInterestNameConstraint,
-            columnNames = ["userId", "interestName"]
-        )
-    ]
+        name = "interest",
+        uniqueConstraints = [
+            UniqueConstraint(
+                    name = uniqueInterestNameConstraint,
+                    columnNames = ["userId", "interestName"]
+            )
+        ]
 )
 data class InterestDBO(
-    @GeneratedValue
-    @Id
-    @Column
-    val id: Long = 0L,
+        @GeneratedValue
+        @Id
+        @Column
+        val id: Long = 0L,
 
-    @ManyToOne
-    @JoinColumn(name = "userId")
-    val user: UserDBO = UserDBO(),
+        @ManyToOne
+        @JoinColumn(name = "userId")
+        val user: UserDBO = UserDBO(),
 
-    val interestName: String = "",
+        val interestName: String = "",
 
-    @CreationTimestamp
-    val addedOn: Date = Date(0L)
+        @CreationTimestamp
+        val addedOn: Date = Date(0L)
 )

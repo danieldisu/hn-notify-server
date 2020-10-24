@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component
 @Component
 class PrintErrorHandler : ErrorHandler {
 
-    private val logger = LoggerFactory.getLogger(javaClass)
+  private val logger = LoggerFactory.getLogger(javaClass)
 
-    override fun handle(throwable: Throwable) {
-        logger.error("handledError", throwable)
-    }
+  override fun handle(throwable: Throwable) {
+    logger.error("handledError", throwable)
+  }
 
 }

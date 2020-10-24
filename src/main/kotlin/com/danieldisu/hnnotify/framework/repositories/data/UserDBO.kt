@@ -8,7 +8,7 @@ import javax.persistence.Table
 @Entity
 @Table(name = "user")
 data class UserDBO(
-    @Id
-    @Column
-    val id: String = ""
+        @Id
+        @Column
+        val id: String = ""
 )

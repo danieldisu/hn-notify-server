@@ -8,10 +8,10 @@ import reactor.core.publisher.Mono
 @Service
 class GetAllUserInterests(private val interestRepository: InterestRepository) {
 
-    fun execute(userId: String): Mono<List<Interest>> {
-        return Mono.fromCallable {
-            interestRepository.findAllByUserId(userId)
-                .map { interestDBO -> Interest(interestDBO.interestName, userId) }
-        }
+  fun execute(userId: String): Mono<List<Interest>> {
+    return Mono.fromCallable {
+      interestRepository.findAllByUserId(userId)
+          .map { interestDBO -> Interest(interestDBO.interestName, userId) }
     }
+  }
 }

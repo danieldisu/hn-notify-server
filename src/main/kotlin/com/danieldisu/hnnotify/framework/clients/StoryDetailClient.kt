@@ -8,9 +8,9 @@ import reactor.core.publisher.Mono
 @Repository
 class StoryDetailClient(private val hackerNewsApi: HackerNewsApi) {
 
-    fun get(storyId: String): Mono<StoryDTO> {
-        return hackerNewsApi.getStoryDetail(storyId)
-            .map { StoryDTO(it.id, it.title) }
-    }
+  fun get(storyId: String): Mono<StoryDTO> {
+    return hackerNewsApi.getStoryDetail(storyId)
+        .map { StoryDTO(it.id, it.title) }
+  }
 
 }

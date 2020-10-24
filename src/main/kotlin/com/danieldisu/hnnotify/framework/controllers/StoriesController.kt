@@ -14,9 +14,9 @@ class StoriesController(
     private val fetchLatestNewStories: FetchLatestNewStories
 ) {
 
-    @PostMapping("/fetch", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun fetch(): Mono<List<Story>> {
-        return fetchLatestNewStories.execute()
-    }
+  @PostMapping("/fetch", produces = [MediaType.APPLICATION_JSON_VALUE])
+  fun fetch(): Mono<List<Story>> {
+    return fetchLatestNewStories.execute()
+  }
 
 }

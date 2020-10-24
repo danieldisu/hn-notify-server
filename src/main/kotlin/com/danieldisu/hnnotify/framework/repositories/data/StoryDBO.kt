@@ -12,10 +12,10 @@ data class StoryDBO(
         val title: String
 ) {
 
-    fun toStory(): Story {
-        return Story(
-                id = id,
-                title = title
-        )
-    }
+  fun toStory(): Story {
+    return Story(
+            id = id,
+            title = title
+    )
+  }
 }

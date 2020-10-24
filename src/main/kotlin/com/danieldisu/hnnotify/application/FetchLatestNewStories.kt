@@ -5,8 +5,8 @@ import com.danieldisu.hnnotify.framework.clients.NewStoriesClient
 import com.danieldisu.hnnotify.framework.clients.StoryDetailClient
 import com.danieldisu.hnnotify.framework.errors.ErrorHandler
 import com.danieldisu.hnnotify.framework.reactor.onErrorContinue
-import com.danieldisu.hnnotify.framework.repositories.story.StoryRepository
 import com.danieldisu.hnnotify.framework.repositories.data.StoryDBO
+import com.danieldisu.hnnotify.framework.repositories.story.StoryRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
@@ -21,46 +21,46 @@ class FetchLatestNewStories(
     private val errorHandler: ErrorHandler
 ) {
 
-    @Value("\${hnnotify.maxStoriesToFetch}")
-    var maxStoriesToFetch: Int = 0
+  @Value("\${hnnotify.maxStoriesToFetch}")
+  var maxStoriesToFetch: Int = 0
 
-    fun execute(): Mono<List<Story>> {
-        return newStoriesClient.get()
-            .map { limitTheNumberOfStories(it) }
-            .onErrorMap { ErrorFetchingNewStories(LocalTime.now(), it) }
-            .flatMapMany { storyIds -> getStoriesAsFlux(storyIds) }
-            .collectList()
-    }
+  fun execute(): Mono<List<Story>> {
+    return newStoriesClient.get()
+        .map { limitTheNumberOfStories(it) }
+        .onErrorMap { ErrorFetchingNewStories(LocalTime.now(), it) }
+        .flatMapMany { storyIds -> getStoriesAsFlux(storyIds) }
+        .collectList()
+  }
 
-    private fun limitTheNumberOfStories(it: List<String>): List<String> {
-        return if (maxStoriesToFetch > 0) {
-            it.take(maxStoriesToFetch)
-        } else {
-            it
-        }
+  private fun limitTheNumberOfStories(it: List<String>): List<String> {
+    return if (maxStoriesToFetch > 0) {
+      it.take(maxStoriesToFetch)
+    } else {
+      it
     }
+  }
 
-    private fun getStoriesAsFlux(storyIds: List<String>): Flux<Story> {
-        return Flux.merge(storyIds.map { id ->
-            storyDetailClient.get(id)
-                .map { it.toStory() }
-                .flatMap { saveInDatabase(it) }
-                .onErrorMap { ErrorFetchingStory(id, it) }
-                .onErrorContinue()
-        })
-    }
+  private fun getStoriesAsFlux(storyIds: List<String>): Flux<Story> {
+    return Flux.merge(storyIds.map { id ->
+      storyDetailClient.get(id)
+          .map { it.toStory() }
+          .flatMap { saveInDatabase(it) }
+          .onErrorMap { ErrorFetchingStory(id, it) }
+          .onErrorContinue()
+    })
+  }
 
-    private fun saveInDatabase(story: Story): Mono<Story> {
-        return Mono.fromCallable {
-            storyRepository.save(
-                StoryDBO(
-                    id = story.id,
-                    title = story.title
-                )
-            )
-            story
-        }
+  private fun saveInDatabase(story: Story): Mono<Story> {
+    return Mono.fromCallable {
+      storyRepository.save(
+          StoryDBO(
+              id = story.id,
+              title = story.title
+          )
+      )
+      story
     }
+  }
 
 
 }

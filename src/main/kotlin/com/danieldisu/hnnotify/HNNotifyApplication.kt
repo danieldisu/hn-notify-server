@@ -12,6 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling
 class HNNotifyApplication
 
 fun main(args: Array<String>) {
-    runApplication<HNNotifyApplication>(*args)
+  runApplication<HNNotifyApplication>(*args)
 }
 

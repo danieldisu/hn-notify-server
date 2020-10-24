@@ -16,10 +16,10 @@ class UserInterestingStoriesController(
     private val getAllInterestingStories: GetAllInterestingStories
 ) {
 
-    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun get(@PathVariable userId: String): Mono<List<StoryDTO>> {
-        return getAllInterestingStories.execute(userId)
-            .toStoryDto()
-    }
+  @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
+  fun get(@PathVariable userId: String): Mono<List<StoryDTO>> {
+    return getAllInterestingStories.execute(userId)
+        .toStoryDto()
+  }
 
 }

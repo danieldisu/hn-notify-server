@@ -8,13 +8,13 @@ import reactor.kotlin.core.publisher.toMono
 
 @Component
 class GetAllStories(
-        private val storyRepository: StoryRepository
+    private val storyRepository: StoryRepository
 ) {
 
-    fun execute(): Mono<List<Story>> {
-        return storyRepository.findAll()
-                .map { it.toStory() }
-                .toMono()
-    }
+  fun execute(): Mono<List<Story>> {
+    return storyRepository.findAll()
+        .map { it.toStory() }
+        .toMono()
+  }
 
 }
