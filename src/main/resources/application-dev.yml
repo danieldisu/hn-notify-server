@@ -1,0 +1,33 @@
+spring:
+  main:
+    banner-mode: console
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+    platform: org.hibernate.dialect.H2Dialect
+
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        temp:
+          use_jdbc_metadata_defaults: false
+      jdbc:
+        lob:
+          non_contextual_creation: true
+    show-sql: true
+
+logging:
+  level:
+    org.hibernate.tool.hbm2ddl: DEBUG
+
+hnnotify:
+  initialDelay: 600000
+  maxStoriesToFetch: 100
+  timeBetweenFetches: 600000

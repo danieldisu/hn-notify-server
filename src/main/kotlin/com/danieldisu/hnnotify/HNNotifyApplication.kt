@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.EnableScheduling
 @SpringBootApplication
 @EnableScheduling
 @EntityScan(basePackages = ["com.danieldisu.hnnotify"])
+
 class HNNotifyApplication
 
 fun main(args: Array<String>) {

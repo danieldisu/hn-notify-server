@@ -14,17 +14,20 @@ class FetchLatestNewStoriesJob(private val fetchLatestNewStories: FetchLatestNew
     private val logger = LoggerFactory.getLogger(javaClass)
 
 
-    @Scheduled(fixedDelay = twentySeconds, initialDelay = 0)
+    @Scheduled(
+            fixedDelayString = "\${hnnotify.timeBetweenFetches}",
+            initialDelayString = "\${hnnotify.initialDelay}"
+    )
     fun fetchLatestNewStories() {
         logger.info("Starting FetchLatestNewStoriesJob")
         fetchLatestNewStories.execute()
-            .subscribe(
-                {
-                    logger.info("Correctly fetched ${it.size} new stories")
-                },
-                {
-                    logger.error("Error fetching new stories", it)
-                })
+                .subscribe(
+                        {
+                            logger.info("Correctly fetched ${it.size} new stories")
+                        },
+                        {
+                            logger.error("Error fetching new stories", it)
+                        })
     }
 
 }

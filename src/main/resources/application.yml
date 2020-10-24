@@ -1,28 +1,6 @@
-spring:
-  main:
-    banner-mode: console
-
-  datasource:
-    url: jdbc:postgresql://${docker.host}:5432/hnnotify
-    username: danieldisu
-    password: 123456
-    platform: postgres
-
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        dialect: "org.hibernate.dialect.PostgreSQLDialect"
-        temp:
-          use_jdbc_metadata_defaults: false
-      jdbc:
-        lob:
-          non_contextual_creation: true
-
 hnnotify:
   maxStoriesToFetch: 100
+  timeBetweenFetches: 60000
 
-docker:
-  host: "${DOCKER_IP:localhost}"
+spring:
+  profiles.active: "dev"
