@@ -8,7 +8,7 @@ const val uniqueInterestNameConstraint = "uniqueInterestNameConstraint"
 
 @Entity
 @Table(
-    name = "interests",
+    name = "interest",
     uniqueConstraints = [
         UniqueConstraint(
             name = uniqueInterestNameConstraint,
