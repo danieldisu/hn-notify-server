@@ -1,8 +1,9 @@
 package com.danieldisu.hnnotify.framework.controllers
 
 import com.danieldisu.hnnotify.application.GetAllInterestingStories
-import com.danieldisu.hnnotify.framework.extensions.toStoryDto
-import com.danieldisu.hnnotify.framework.hn.data.StoryDTO
+import com.danieldisu.hnnotify.domain.data.Story
+import com.danieldisu.hnnotify.framework.controllers.mapper.toStoryDto
+import com.danieldisu.hnnotify.framework.controllers.response.GetUserInterestingStoriesResponse
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -17,9 +18,12 @@ class UserInterestingStoriesController(
 ) {
 
   @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-  fun get(@PathVariable userId: String): Mono<List<StoryDTO>> {
+  fun get(@PathVariable userId: String): Mono<GetUserInterestingStoriesResponse> {
     return getAllInterestingStories.execute(userId)
-        .toStoryDto()
+        .map { it.toResponse() }
   }
 
+  private fun List<Story>.toResponse() =
+      GetUserInterestingStoriesResponse(stories = this.toStoryDto())
 }
+
