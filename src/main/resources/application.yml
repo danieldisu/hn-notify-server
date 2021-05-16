@@ -1,6 +1,2 @@
-hnnotify:
-  maxStoriesToFetch: 100
-  timeBetweenFetches: 60000
-
 spring:
   profiles.active: "dev"
