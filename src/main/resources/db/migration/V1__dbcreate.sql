@@ -1,0 +1,30 @@
+create table hn_user
+(
+    id varchar(255) not null,
+    primary key (id)
+);
+
+create table interest
+(
+    id            int8 not null,
+    added_on      date,
+    interest_name varchar(255),
+    user_id       varchar(255),
+    primary key (id)
+);
+
+create table story
+(
+    id    varchar(255) not null,
+    title varchar(255),
+    primary key (id)
+);
+
+INSERT INTO hn_user VALUES('1');
+
+INSERT INTO interest (id, user_id, interest_name, added_on) VALUES(1, 1, 'android', CURRENT_DATE);
+INSERT INTO interest (id, user_id, interest_name, added_on) VALUES(2, 1, 'compose', CURRENT_DATE);
+INSERT INTO interest (id, user_id, interest_name, added_on) VALUES(3, 1, 'kotlin', CURRENT_DATE);
+
+INSERT INTO interest (id, user_id, interest_name, added_on) VALUES(4, 1, 'spain', CURRENT_DATE);
+INSERT INTO interest (id, user_id, interest_name, added_on) VALUES(5, 1, 'madrid', CURRENT_DATE);

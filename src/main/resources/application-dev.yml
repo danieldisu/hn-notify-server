@@ -1,33 +1,18 @@
 spring:
+
   main:
     banner-mode: console
 
   datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: password
-    platform: org.hibernate.dialect.H2Dialect
+    url: jdbc:postgresql://localhost:5432/hnnotify
+    username: danieldisu
+    password: 123456
 
   jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        temp:
-          use_jdbc_metadata_defaults: false
-      jdbc:
-        lob:
-          non_contextual_creation: true
     show-sql: true
-
-#logging:
-#  level:
-#    org.hibernate.tool.hbm2ddl: DEBUG
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 hnnotify:
-  initialDelay: 600000
-  maxStoriesToFetch: 100
-  timeBetweenFetches: 600000
+  initialDelay: 1000
+  maxStoriesToFetch: 10
+  timeBetweenFetches: 60000
