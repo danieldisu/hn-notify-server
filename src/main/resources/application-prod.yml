@@ -1,18 +1,15 @@
 spring:
+
+  datasource:
+    hikari:
+      maximumPoolSize: 5
+
   jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: create
-    properties:
-      hibernate:
-        dialect: "org.hibernate.dialect.PostgreSQLDialect"
-        temp:
-          use_jdbc_metadata_defaults: false
-      jdbc:
-        lob:
-          non_contextual_creation: true
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
 
 hnnotify:
-  initialDelay: 60000 # 1 minute
+  initialDelay: 30000
   maxStoriesToFetch: 500
   timeBetweenFetches: 3600000 # 1 hour
