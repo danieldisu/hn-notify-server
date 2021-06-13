@@ -8,14 +8,14 @@ import javax.persistence.Table
 @Entity
 @Table(name = "story")
 data class StoryDBO(
-        @Id val id: String,
-        val title: String
+    @Id val id: String,
+    val title: String
 ) {
 
-  fun toStory(): Story {
-    return Story(
+    fun toStory(): Story {
+        return Story(
             id = id,
             title = title
-    )
-  }
+        )
+    }
 }

@@ -11,10 +11,10 @@ class GetAllStories(
     private val storyRepository: StoryRepository
 ) {
 
-  fun execute(): Mono<List<Story>> {
-    return storyRepository.findAll()
-        .map { it.toStory() }
-        .toMono()
-  }
+    fun execute(): Mono<List<Story>> {
+        return storyRepository.findAll()
+            .map { it.toStory() }
+            .toMono()
+    }
 
 }

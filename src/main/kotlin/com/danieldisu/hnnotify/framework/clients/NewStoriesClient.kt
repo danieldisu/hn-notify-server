@@ -7,8 +7,8 @@ import reactor.core.publisher.Mono
 @Repository
 class NewStoriesClient(private val hackerNewsApi: HackerNewsApi) {
 
-  fun get(): Mono<List<String>> {
-    return hackerNewsApi.getNewStories()
-  }
+    fun get(): Mono<List<String>> {
+        return hackerNewsApi.getNewStories()
+    }
 
 }

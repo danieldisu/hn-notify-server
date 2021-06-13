@@ -19,13 +19,13 @@ class HerokuDatasourceConfiguration {
         val username = dbUri.userInfo.split(":").toTypedArray()[0]
         val password = dbUri.userInfo.split(":").toTypedArray()[1]
         val jdbcCompatibleDBUrl =
-                "jdbc:postgresql://" + dbUri.host + ':' + dbUri.port + dbUri.path + "?sslmode=require"
+            "jdbc:postgresql://" + dbUri.host + ':' + dbUri.port + dbUri.path + "?sslmode=require"
 
         return DataSourceBuilder.create()
-                .url(jdbcCompatibleDBUrl)
-                .username(username)
-                .password(password)
-                .build()
+            .url(jdbcCompatibleDBUrl)
+            .username(username)
+            .password(password)
+            .build()
     }
 
 }

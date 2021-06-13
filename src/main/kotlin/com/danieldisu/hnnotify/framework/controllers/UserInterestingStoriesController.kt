@@ -17,13 +17,13 @@ class UserInterestingStoriesController(
     private val getAllInterestingStories: GetAllInterestingStories
 ) {
 
-  @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-  fun get(@PathVariable userId: String): Mono<GetUserInterestingStoriesResponse> {
-    return getAllInterestingStories.execute(userId)
-        .map { it.toResponse() }
-  }
+    @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun get(@PathVariable userId: String): Mono<GetUserInterestingStoriesResponse> {
+        return getAllInterestingStories.execute(userId)
+            .map { it.toResponse() }
+    }
 
-  private fun List<Story>.toResponse() =
-      GetUserInterestingStoriesResponse(stories = this.toStoryDto())
+    private fun List<Story>.toResponse() =
+        GetUserInterestingStoriesResponse(stories = this.toStoryDto())
 }
 

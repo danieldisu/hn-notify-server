@@ -21,46 +21,46 @@ class FetchLatestNewStories(
     private val errorHandler: ErrorHandler
 ) {
 
-  @Value("\${hnnotify.maxStoriesToFetch}")
-  var maxStoriesToFetch: Int = 0
+    @Value("\${hnnotify.maxStoriesToFetch}")
+    var maxStoriesToFetch: Int = 0
 
-  fun execute(): Mono<List<Story>> {
-    return newStoriesClient.get()
-        .map { limitTheNumberOfStories(it) }
-        .onErrorMap { ErrorFetchingNewStories(LocalTime.now(), it) }
-        .flatMapMany { storyIds -> getStoriesAsFlux(storyIds) }
-        .collectList()
-  }
-
-  private fun limitTheNumberOfStories(it: List<String>): List<String> {
-    return if (maxStoriesToFetch > 0) {
-      it.take(maxStoriesToFetch)
-    } else {
-      it
+    fun execute(): Mono<List<Story>> {
+        return newStoriesClient.get()
+            .map { limitTheNumberOfStories(it) }
+            .onErrorMap { ErrorFetchingNewStories(LocalTime.now(), it) }
+            .flatMapMany { storyIds -> getStoriesAsFlux(storyIds) }
+            .collectList()
     }
-  }
 
-  private fun getStoriesAsFlux(storyIds: List<String>): Flux<Story> {
-    return Flux.merge(storyIds.map { id ->
-      storyDetailClient.get(id)
-          .map { it.toStory() }
-          .flatMap { saveInDatabase(it) }
-          .onErrorMap { ErrorFetchingStory(id, it) }
-          .onErrorContinue()
-    })
-  }
-
-  private fun saveInDatabase(story: Story): Mono<Story> {
-    return Mono.fromCallable {
-      storyRepository.save(
-          StoryDBO(
-              id = story.id,
-              title = story.title
-          )
-      )
-      story
+    private fun limitTheNumberOfStories(it: List<String>): List<String> {
+        return if (maxStoriesToFetch > 0) {
+            it.take(maxStoriesToFetch)
+        } else {
+            it
+        }
     }
-  }
+
+    private fun getStoriesAsFlux(storyIds: List<String>): Flux<Story> {
+        return Flux.merge(storyIds.map { id ->
+            storyDetailClient.get(id)
+                .map { it.toStory() }
+                .flatMap { saveInDatabase(it) }
+                .onErrorMap { ErrorFetchingStory(id, it) }
+                .onErrorContinue()
+        })
+    }
+
+    private fun saveInDatabase(story: Story): Mono<Story> {
+        return Mono.fromCallable {
+            storyRepository.save(
+                StoryDBO(
+                    id = story.id,
+                    title = story.title
+                )
+            )
+            story
+        }
+    }
 
 
 }

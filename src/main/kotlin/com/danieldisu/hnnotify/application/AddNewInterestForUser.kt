@@ -15,29 +15,29 @@ class AddNewInterestForUser(
     private val userRepository: UserRepository
 ) {
 
-  fun execute(interest: Interest): Mono<Unit> {
-    return Mono.fromCallable {
-      interestRepository.save(
-          InterestDBO(
-              user = findOrCreateUser(interest.userId),
-              interestName = interest.interestName
-          )
-      )
-    }.onErrorMap(::mapErrorToDomainException).map { Unit }
-  }
-
-  private fun mapErrorToDomainException(cause: Throwable): Throwable {
-    return if (cause is DataIntegrityViolationException) {
-      InterestAlreadyPresent(cause)
-    } else {
-      UnknownErrorAddingNewInterest(cause)
+    fun execute(interest: Interest): Mono<Unit> {
+        return Mono.fromCallable {
+            interestRepository.save(
+                InterestDBO(
+                    user = findOrCreateUser(interest.userId),
+                    interestName = interest.interestName
+                )
+            )
+        }.onErrorMap(::mapErrorToDomainException).map { Unit }
     }
-  }
 
-  private fun findOrCreateUser(userId: String): UserDBO {
-    return userRepository.findById(userId)
-        .orElse(userRepository.save(UserDBO(userId)))
-  }
+    private fun mapErrorToDomainException(cause: Throwable): Throwable {
+        return if (cause is DataIntegrityViolationException) {
+            InterestAlreadyPresent(cause)
+        } else {
+            UnknownErrorAddingNewInterest(cause)
+        }
+    }
+
+    private fun findOrCreateUser(userId: String): UserDBO {
+        return userRepository.findById(userId)
+            .orElse(userRepository.save(UserDBO(userId)))
+    }
 
 }
 

@@ -20,11 +20,20 @@ create table story
     primary key (id)
 );
 
-INSERT INTO hn_user VALUES('1');
+INSERT INTO hn_user
+VALUES ('1');
 
-INSERT INTO interest (id, user_id, interest_name, added_on) VALUES(1, 1, 'android', CURRENT_DATE);
-INSERT INTO interest (id, user_id, interest_name, added_on) VALUES(2, 1, 'compose', CURRENT_DATE);
-INSERT INTO interest (id, user_id, interest_name, added_on) VALUES(3, 1, 'kotlin', CURRENT_DATE);
+INSERT INTO interest (id, user_id, interest_name, added_on)
+VALUES (1, 1, 'android', CURRENT_DATE);
 
-INSERT INTO interest (id, user_id, interest_name, added_on) VALUES(4, 1, 'spain', CURRENT_DATE);
-INSERT INTO interest (id, user_id, interest_name, added_on) VALUES(5, 1, 'madrid', CURRENT_DATE);
+INSERT INTO interest (id, user_id, interest_name, added_on)
+VALUES (2, 1, 'compose', CURRENT_DATE);
+
+INSERT INTO interest (id, user_id, interest_name, added_on)
+VALUES (3, 1, 'kotlin', CURRENT_DATE);
+
+INSERT INTO interest (id, user_id, interest_name, added_on)
+VALUES (4, 1, 'spain', CURRENT_DATE);
+
+INSERT INTO interest (id, user_id, interest_name, added_on)
+VALUES (5, 1, 'madrid', CURRENT_DATE);
