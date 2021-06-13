@@ -1,18 +1,17 @@
 package com.danieldisu.hnnotify.integration
 
-import com.danieldisu.hnnotify.framework.repositories.interest.InterestRepository
 import com.danieldisu.hnnotify.framework.repositories.data.InterestDBO
 import com.danieldisu.hnnotify.framework.repositories.data.UserDBO
-import org.junit.Test
-import org.junit.runner.RunWith
+import com.danieldisu.hnnotify.framework.repositories.interest.InterestRepository
+import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
-import org.springframework.test.context.junit4.SpringRunner
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.util.AssertionErrors.assertEquals
 
 
-@RunWith(SpringRunner::class)
+@SpringBootTest
 @DataJpaTest
 class InterestRepositoryTest {
 
