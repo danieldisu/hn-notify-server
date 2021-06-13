@@ -24,11 +24,17 @@ class GetAllInterestingStories(
         interests: List<Interest>,
         stories: List<Story>
     ): List<Story> {
-        return stories.filter { story ->
-            interests.any { interest ->
-                story.title.contains(interest.interestName, true)
-            }
-        }
+        return stories.filter { story -> isRelevantToAnInterest(interests, story) }
     }
+
+    private fun isRelevantToAnInterest(
+        interests: List<Interest>,
+        story: Story
+    ) = interests.any { interest -> isRelevantToInterest(story, interest) }
+
+    private fun isRelevantToInterest(
+        story: Story,
+        interest: Interest
+    ) = interest.interestKeywords.any { keyword -> story.title.contains(keyword, true) }
 
 }

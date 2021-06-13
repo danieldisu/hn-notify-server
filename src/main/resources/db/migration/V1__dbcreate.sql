@@ -6,11 +6,12 @@ create table hn_user
 
 create table interest
 (
-    id            int8 not null,
+    id            varchar(255) not null,
     added_on      date,
     interest_name varchar(255),
     user_id       varchar(255),
-    primary key (id)
+    primary key (id),
+    UNIQUE (interest_name, user_id)
 );
 
 create table story
@@ -23,17 +24,5 @@ create table story
 INSERT INTO hn_user
 VALUES ('1');
 
-INSERT INTO interest (id, user_id, interest_name, added_on)
-VALUES (1, 1, 'android', CURRENT_DATE);
-
-INSERT INTO interest (id, user_id, interest_name, added_on)
-VALUES (2, 1, 'compose', CURRENT_DATE);
-
-INSERT INTO interest (id, user_id, interest_name, added_on)
-VALUES (3, 1, 'kotlin', CURRENT_DATE);
-
-INSERT INTO interest (id, user_id, interest_name, added_on)
-VALUES (4, 1, 'spain', CURRENT_DATE);
-
-INSERT INTO interest (id, user_id, interest_name, added_on)
-VALUES (5, 1, 'madrid', CURRENT_DATE);
+INSERT INTO hn_user
+VALUES ('2');

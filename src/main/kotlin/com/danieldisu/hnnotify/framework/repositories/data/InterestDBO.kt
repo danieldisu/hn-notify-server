@@ -2,6 +2,7 @@ package com.danieldisu.hnnotify.framework.repositories.data
 
 import org.hibernate.annotations.CreationTimestamp
 import java.sql.Date
+import java.util.*
 import javax.persistence.*
 
 const val uniqueInterestNameConstraint = "uniqueInterestNameConstraint"
@@ -17,16 +18,17 @@ const val uniqueInterestNameConstraint = "uniqueInterestNameConstraint"
     ]
 )
 data class InterestDBO(
-    @GeneratedValue
     @Id
     @Column
-    val id: Long = 0L,
+    val id: String = UUID.randomUUID().toString(),
 
     @ManyToOne
     @JoinColumn(name = "userId")
-    val user: UserDBO = UserDBO(),
+    val user: UserDBO,
 
-    val interestName: String = "",
+    val interestName: String,
+
+    val interestKeywords: String,
 
     @CreationTimestamp
     val addedOn: Date = Date(0L)
