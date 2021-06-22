@@ -5,14 +5,7 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-PUT {{host}}/user/123/interests
-Content-Type: application/json
-
-{
-  "interestName": "kotlin",
-  "interestKeywords": [
-    "kotlin"
-  ]
-}
+GET {{host}}/user/1/interests
+Accept: application/json
 
 ###
