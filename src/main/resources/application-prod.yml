@@ -11,7 +11,7 @@ spring:
 
 hnnotify:
   initialDelay: 30000
-  maxStoriesToFetch: 100
+  maxStoriesToFetch: 20
   timeBetweenFetches: 30000
   cleanup:
     targetNumberOfRows: 9000
