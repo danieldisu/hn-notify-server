@@ -13,6 +13,11 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 hnnotify:
-  initialDelay: 1000
-  maxStoriesToFetch: 10
+  initialDelay: 1000000
+  maxStoriesToFetch: 100
   timeBetweenFetches: 60000
+  cleanup:
+    targetNumberOfRows: 10
+    timeBetween: 60000
+    initialDelay: 1000
+
