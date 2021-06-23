@@ -70,7 +70,7 @@ class InterestController(
         @PathVariable userId: String,
         @PathVariable interestId: String,
     ): ResponseEntity<InterestDTO> =
-        when (val interest = getInterest(interestId)) {
+        when (val interest = getInterest(interestId, userId)) {
             null -> ResponseEntity.notFound().build()
             else -> ResponseEntity.ok(interest.toDTO())
         }

@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.BodyInserters
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class InterestControllerTest {
 
+    @Suppress("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private lateinit var webClient: WebTestClient
 
@@ -88,6 +89,14 @@ class InterestControllerTest {
             .isEqualTo(HttpStatus.NOT_FOUND)
     }
 
+    @Test
+    internal fun `should return 404 when requesting an interest that exists but does not belong to user`() {
+        webClient.get()
+            .uri("/user/$userIdThatDoesNotExists/interest/$interestIdThatDoesNotExists")
+            .exchange()
+            .expectStatus()
+            .isEqualTo(HttpStatus.NOT_FOUND)
+    }
 
     companion object {
         private val userIdThatExists = "1"

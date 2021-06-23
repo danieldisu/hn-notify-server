@@ -1,0 +1,2 @@
+GET {{host}}/user/1/interest/5
+Accept: application/json
