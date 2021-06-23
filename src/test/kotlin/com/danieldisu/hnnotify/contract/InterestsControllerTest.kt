@@ -29,7 +29,7 @@ class InterestsControllerTest {
 
     @Test
     fun `should return 409 CONFLICT when user does not exist`() {
-        webClient.put()
+        webClient.post()
             .uri("/user/$userIdThatDoesNotExists/interest")
             .body(BodyInserters.fromValue(anotherInterest))
             .exchange()
@@ -39,7 +39,7 @@ class InterestsControllerTest {
 
     @Test
     fun `should return 409 CONFLICT when trying to add an interest that already exists`() {
-        webClient.put()
+        webClient.post()
             .uri("/user/$userIdThatExists/interest")
             .body(BodyInserters.fromValue(interestThatAlreadyExists))
             .exchange()

@@ -26,7 +26,7 @@ class InterestController(
 
     private val logger: Logger = LoggerFactory.getLogger(InterestController::class.java)
 
-    @PutMapping("/{interestId}", produces = [MediaType.APPLICATION_JSON_VALUE])
+    @PostMapping("/{interestId}", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun editInterest(
         @PathVariable userId: String,
         @PathVariable interestId: String,

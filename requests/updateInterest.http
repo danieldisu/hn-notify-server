@@ -1,0 +1,10 @@
+POST {{host}}/user/1/interest/5
+Content-Type: application/json
+
+{
+  "interestName": "kotlin",
+  "interestKeywords": [
+    "kotlin",
+    "coroutines"
+  ]
+}
