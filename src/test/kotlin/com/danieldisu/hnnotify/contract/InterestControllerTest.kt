@@ -7,12 +7,13 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.HttpStatus
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.web.reactive.server.WebTestClient
+import org.springframework.test.web.reactive.server.expectBody
 import org.springframework.web.reactive.function.BodyInserters
 
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class InterestsControllerTest {
+class InterestControllerTest {
 
     @Autowired
     private lateinit var webClient: WebTestClient
@@ -29,7 +30,7 @@ class InterestsControllerTest {
 
     @Test
     fun `should return 409 CONFLICT when user does not exist`() {
-        webClient.post()
+        webClient.put()
             .uri("/user/$userIdThatDoesNotExists/interest")
             .body(BodyInserters.fromValue(anotherInterest))
             .exchange()
@@ -39,7 +40,7 @@ class InterestsControllerTest {
 
     @Test
     fun `should return 409 CONFLICT when trying to add an interest that already exists`() {
-        webClient.post()
+        webClient.put()
             .uri("/user/$userIdThatExists/interest")
             .body(BodyInserters.fromValue(interestThatAlreadyExists))
             .exchange()
@@ -49,7 +50,7 @@ class InterestsControllerTest {
 
     @Test
     internal fun `should return 204 when successfully editing an interest`() {
-        webClient.put()
+        webClient.post()
             .uri("/user/$userIdThatExists/interest/$interestIdThatAlreadyExists")
             .body(BodyInserters.fromValue(updatedInterest))
             .exchange()
@@ -59,13 +60,34 @@ class InterestsControllerTest {
 
     @Test
     internal fun `should return 404 when editing an interest that does not exist`() {
-        webClient.put()
+        webClient.post()
             .uri("/user/$userIdThatExists/interest/$interestIdThatDoesNotExists")
             .body(BodyInserters.fromValue(updatedInterest))
             .exchange()
             .expectStatus()
             .isEqualTo(HttpStatus.NOT_FOUND)
     }
+
+    @Test
+    internal fun `should return 200 and the interest when requesting an existing interest`() {
+        webClient.get()
+            .uri("/user/$userIdThatExists/interest/4")
+            .exchange()
+            .expectStatus()
+            .isEqualTo(HttpStatus.OK)
+            .expectBody<InterestDTO>()
+            .isEqualTo(InterestDTO("spain", listOf("spain")))
+    }
+
+    @Test
+    internal fun `should return 404 when requesting an interest that does not exist`() {
+        webClient.get()
+            .uri("/user/$userIdThatExists/interest/$interestIdThatDoesNotExists")
+            .exchange()
+            .expectStatus()
+            .isEqualTo(HttpStatus.NOT_FOUND)
+    }
+
 
     companion object {
         private val userIdThatExists = "1"

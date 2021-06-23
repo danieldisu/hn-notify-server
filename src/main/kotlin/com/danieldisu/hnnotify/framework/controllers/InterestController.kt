@@ -7,6 +7,8 @@ import com.danieldisu.hnnotify.application.GetAllUserInterests
 import com.danieldisu.hnnotify.application.interest.EditInterest
 import com.danieldisu.hnnotify.application.interest.EditInterestRequest
 import com.danieldisu.hnnotify.application.interest.EditInterestResponse
+import com.danieldisu.hnnotify.application.interest.GetInterest
+import com.danieldisu.hnnotify.domain.data.Interest
 import com.danieldisu.hnnotify.framework.controllers.data.InterestDTO
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -22,6 +24,7 @@ class InterestController(
     private val addNewInterestForUser: AddNewInterestForUser,
     private val getAllUserInterests: GetAllUserInterests,
     private val editInterest: EditInterest,
+    private val getInterest: GetInterest,
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(InterestController::class.java)
@@ -59,8 +62,18 @@ class InterestController(
     @GetMapping("", produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getAllInterests(@PathVariable userId: String): Mono<List<InterestDTO>> {
         return getAllUserInterests.execute(userId)
-            .map { interests -> interests.map { InterestDTO(it.interestName, it.interestKeywords) } }
+            .map { interests -> interests.map { it.toDTO() } }
     }
+
+    @GetMapping("/{interestId}", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun getInterestsById(
+        @PathVariable userId: String,
+        @PathVariable interestId: String,
+    ): ResponseEntity<InterestDTO> =
+        when (val interest = getInterest(interestId)) {
+            null -> ResponseEntity.notFound().build()
+            else -> ResponseEntity.ok(interest.toDTO())
+        }
 
     @ExceptionHandler
     fun handle(exception: Exception): ResponseEntity<Unit> {
@@ -83,3 +96,5 @@ class InterestController(
             }
         }
 }
+
+private fun Interest.toDTO() = InterestDTO(this.interestName, this.interestKeywords)
