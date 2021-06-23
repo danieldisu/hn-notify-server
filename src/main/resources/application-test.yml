@@ -22,6 +22,11 @@ spring:
     show-sql: true
 
 hnnotify:
-  initialDelay: 600000
+  initialDelay: 1000000
   maxStoriesToFetch: 100
-  timeBetweenFetches: 600000
+  timeBetweenFetches: 60000
+  cleanup:
+    targetNumberOfRows: 10
+    timeBetween: 60000
+    initialDelay: 1000
+

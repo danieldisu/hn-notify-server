@@ -20,7 +20,7 @@ class InterestsControllerTest {
     @Test
     fun `should return 201 CREATED when successfully added the interest to the database`() {
         webClient.put()
-            .uri("/user/$userIdThatExists/interests")
+            .uri("/user/$userIdThatExists/interest")
             .body(BodyInserters.fromValue(anInterest))
             .exchange()
             .expectStatus()
@@ -30,7 +30,7 @@ class InterestsControllerTest {
     @Test
     fun `should return 409 CONFLICT when user does not exist`() {
         webClient.put()
-            .uri("/user/$userIdThatDoesNotExists/interests")
+            .uri("/user/$userIdThatDoesNotExists/interest")
             .body(BodyInserters.fromValue(anotherInterest))
             .exchange()
             .expectStatus()
@@ -38,20 +38,43 @@ class InterestsControllerTest {
     }
 
     @Test
-    fun `should return 409 CONFLICT when interest already exists`() {
+    fun `should return 409 CONFLICT when trying to add an interest that already exists`() {
         webClient.put()
-            .uri("/user/$userIdThatExists/interests")
+            .uri("/user/$userIdThatExists/interest")
             .body(BodyInserters.fromValue(interestThatAlreadyExists))
             .exchange()
             .expectStatus()
             .isEqualTo(HttpStatus.CONFLICT)
     }
 
+    @Test
+    internal fun `should return 204 when successfully editing an interest`() {
+        webClient.put()
+            .uri("/user/$userIdThatExists/interest/$interestIdThatAlreadyExists")
+            .body(BodyInserters.fromValue(updatedInterest))
+            .exchange()
+            .expectStatus()
+            .isEqualTo(HttpStatus.NO_CONTENT)
+    }
+
+    @Test
+    internal fun `should return 404 when editing an interest that does not exist`() {
+        webClient.put()
+            .uri("/user/$userIdThatExists/interest/$interestIdThatDoesNotExists")
+            .body(BodyInserters.fromValue(updatedInterest))
+            .exchange()
+            .expectStatus()
+            .isEqualTo(HttpStatus.NOT_FOUND)
+    }
+
     companion object {
         private val userIdThatExists = "1"
         private val userIdThatDoesNotExists = "123"
 
+        private val interestIdThatDoesNotExists = "25"
+        private val interestIdThatAlreadyExists = "3"
         private val interestThatAlreadyExists = InterestDTO("kotlin", listOf("kotlin"))
+        private val updatedInterest = InterestDTO("kotlin", listOf("kotlin", "coroutines"))
 
         private val anInterest = InterestDTO("java6", listOf("java6"))
         private val anotherInterest = InterestDTO("java7", listOf("java7"))

@@ -1,7 +1,6 @@
 package com.danieldisu.hnnotify.application
 
 import com.danieldisu.hnnotify.domain.data.Interest
-import com.danieldisu.hnnotify.domain.mappings.toDomain
 import com.danieldisu.hnnotify.framework.repositories.data.InterestDBO
 import com.danieldisu.hnnotify.framework.repositories.interest.InterestRepository
 import org.springframework.stereotype.Service

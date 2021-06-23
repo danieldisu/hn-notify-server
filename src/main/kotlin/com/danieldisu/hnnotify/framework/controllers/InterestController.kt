@@ -4,6 +4,9 @@ import com.danieldisu.hnnotify.application.AddInterestRequest
 import com.danieldisu.hnnotify.application.AddNewInterestError
 import com.danieldisu.hnnotify.application.AddNewInterestForUser
 import com.danieldisu.hnnotify.application.GetAllUserInterests
+import com.danieldisu.hnnotify.application.interest.EditInterest
+import com.danieldisu.hnnotify.application.interest.EditInterestRequest
+import com.danieldisu.hnnotify.application.interest.EditInterestResponse
 import com.danieldisu.hnnotify.framework.controllers.data.InterestDTO
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -14,13 +17,30 @@ import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 
 @RestController
-@RequestMapping("/user/{userId}/interests")
-class InterestsController(
+@RequestMapping("/user/{userId}/interest")
+class InterestController(
     private val addNewInterestForUser: AddNewInterestForUser,
-    private val getAllUserInterests: GetAllUserInterests
+    private val getAllUserInterests: GetAllUserInterests,
+    private val editInterest: EditInterest,
 ) {
 
-    private val logger: Logger = LoggerFactory.getLogger(InterestsController::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(InterestController::class.java)
+
+    @PutMapping("/{interestId}", produces = [MediaType.APPLICATION_JSON_VALUE])
+    fun editInterest(
+        @PathVariable userId: String,
+        @PathVariable interestId: String,
+        @RequestBody interest: InterestDTO,
+    ): ResponseEntity<Unit> {
+        val request = EditInterestRequest(
+            userId = userId,
+            interestName = interest.interestName,
+            interestKeywords = interest.interestKeywords,
+            interestId = interestId
+        )
+
+        return request.toControllerResponse()
+    }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PutMapping("", produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -52,4 +72,14 @@ class InterestsController(
             else -> ResponseEntity.status(500).build()
         }
     }
+
+    private fun EditInterestRequest.toControllerResponse(): ResponseEntity<Unit> =
+        when (val editionResult = editInterest(this)) {
+            is EditInterestResponse.SuccessFullyUpdated -> ResponseEntity.noContent().build()
+            EditInterestResponse.InterestNotFound -> ResponseEntity.notFound().build()
+            is EditInterestResponse.UnknownError -> {
+                logger.error("ErrorEditingInterest $this", editionResult.cause)
+                ResponseEntity.internalServerError().build()
+            }
+        }
 }

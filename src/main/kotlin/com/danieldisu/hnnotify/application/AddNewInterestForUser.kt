@@ -1,6 +1,5 @@
 package com.danieldisu.hnnotify.application
 
-import com.danieldisu.hnnotify.domain.mappings.INTEREST_KEYWORD_SEPARATOR
 import com.danieldisu.hnnotify.framework.repositories.data.InterestDBO
 import com.danieldisu.hnnotify.framework.repositories.data.UserDBO
 import com.danieldisu.hnnotify.framework.repositories.interest.InterestRepository
@@ -26,10 +25,10 @@ class AddNewInterestForUser(
     private fun saveInterest(request: AddInterestRequest, userDBO: UserDBO): Mono<Unit> =
         Mono.fromCallable {
             interestRepository.save(
-                InterestDBO(
+                InterestDBO.from(
                     user = userDBO,
                     interestName = request.interestName,
-                    interestKeywords = request.interestKeywords.joinToString { INTEREST_KEYWORD_SEPARATOR }
+                    interestKeywords = request.interestKeywords
                 )
             )
         }.map { }
