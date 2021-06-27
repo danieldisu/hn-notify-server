@@ -11,11 +11,17 @@ class EditInterest(
 ) {
 
     operator fun invoke(request: EditInterestRequest): EditInterestResponse {
-        val interestExists = interestRepository.existsById(request.interestId)
-        if (!interestExists) return EditInterestResponse.InterestNotFound
+        if (!interestRepository.existsById(request.interestId)) return EditInterestResponse.InterestNotFound
+        if (existsInterestWithThatName(request)) return EditInterestResponse.DuplicatedInterestName
 
         return save(request).toResponse()
     }
+
+    private fun existsInterestWithThatName(request: EditInterestRequest) =
+        interestRepository.existsByInterestNameAndUserId(
+            request.interestName,
+            request.userId
+        )
 
     private fun save(request: EditInterestRequest) = kotlin.runCatching {
         interestRepository.save(request.toInterestDBO())
@@ -31,11 +37,13 @@ data class EditInterestRequest(
 
 sealed class EditInterestResponse {
 
-    data class SuccessFullyUpdated(
+    data class SuccessfullyUpdated(
         val interest: Interest
     ) : EditInterestResponse()
 
     object InterestNotFound : EditInterestResponse()
+
+    object DuplicatedInterestName : EditInterestResponse()
 
     data class UnknownError(
         val cause: Throwable
@@ -45,9 +53,8 @@ sealed class EditInterestResponse {
 
 private fun Result<InterestDBO>.toResponse(): EditInterestResponse =
     this.fold(
-        onSuccess = { EditInterestResponse.SuccessFullyUpdated(it.toDomain()) },
-        onFailure =
-        { EditInterestResponse.UnknownError(it) }
+        onSuccess = { EditInterestResponse.SuccessfullyUpdated(it.toDomain()) },
+        onFailure = { EditInterestResponse.UnknownError(it) }
     )
 
 private fun EditInterestRequest.toInterestDBO() =

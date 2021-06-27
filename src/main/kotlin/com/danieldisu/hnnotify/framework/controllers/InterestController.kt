@@ -42,7 +42,7 @@ class InterestController(
             interestId = interestId
         )
 
-        return request.toControllerResponse()
+        return editInterest(request).toControllerResponse()
     }
 
     @ResponseStatus(HttpStatus.CREATED)
@@ -86,15 +86,18 @@ class InterestController(
         }
     }
 
-    private fun EditInterestRequest.toControllerResponse(): ResponseEntity<Unit> =
-        when (val editionResult = editInterest(this)) {
-            is EditInterestResponse.SuccessFullyUpdated -> ResponseEntity.noContent().build()
+    private fun EditInterestResponse.toControllerResponse(): ResponseEntity<Unit> {
+        logger.error("EditInterestResponse - $this")
+        return when (this) {
+            is EditInterestResponse.SuccessfullyUpdated -> ResponseEntity.noContent().build()
             EditInterestResponse.InterestNotFound -> ResponseEntity.notFound().build()
+            EditInterestResponse.DuplicatedInterestName -> ResponseEntity.badRequest().build()
             is EditInterestResponse.UnknownError -> {
-                logger.error("ErrorEditingInterest $this", editionResult.cause)
+                logger.error("", cause)
                 ResponseEntity.internalServerError().build()
             }
         }
+    }
 }
 
 private fun Interest.toDTO() = InterestDTO(this.interestName, this.interestKeywords)

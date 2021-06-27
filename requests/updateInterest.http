@@ -1,4 +1,4 @@
-POST {{host}}/user/1/interest/5
+POST {{host}}/user/1/interest/3
 Content-Type: application/json
 
 {

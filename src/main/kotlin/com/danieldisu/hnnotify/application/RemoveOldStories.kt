@@ -20,13 +20,17 @@ class RemoveOldStories(
 
         if (numberOfRows >= targetNumberOfRows) {
             val numberOfElementsToRemove = numberOfRows - targetNumberOfRows
-            val olderStories =
-                storyRepository.findAllByOrderByIdAsc(PageRequest.of(0, numberOfElementsToRemove))
-
-            return storyRepository.deleteAllByIdIn(olderStories.map { it.id })
-        } else {
-            return 0
+            return removeOlderStories(numberOfElementsToRemove)
         }
+
+        return 0
+    }
+
+    private fun removeOlderStories(numberOfElementsToRemove: Int): Int {
+        val olderStories =
+            storyRepository.findAllByOrderByIdAsc(PageRequest.of(0, numberOfElementsToRemove))
+
+        return storyRepository.deleteAllByIdIn(olderStories.map { it.id })
     }
 
 }

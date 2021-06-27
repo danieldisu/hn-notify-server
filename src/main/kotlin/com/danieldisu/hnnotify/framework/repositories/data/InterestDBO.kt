@@ -8,18 +8,8 @@ import javax.persistence.*
 
 private const val INTEREST_KEYWORD_SEPARATOR = ";;"
 
-private const val NAME_CONSTRAINT = "uniqueInterestNameConstraint"
-
 @Entity
-@Table(
-    name = "interest",
-    uniqueConstraints = [
-        UniqueConstraint(
-            name = NAME_CONSTRAINT,
-            columnNames = ["userId", "interestName"]
-        )
-    ]
-)
+@Table(name = "interest")
 data class InterestDBO(
     @Id
     @Column
@@ -54,7 +44,7 @@ data class InterestDBO(
             id = interestId,
             user = UserDBO(userId),
             interestName = interestName,
-            interestKeywords = interestKeywords.joinToString { INTEREST_KEYWORD_SEPARATOR }
+            interestKeywords = interestKeywords.joinToString(separator = INTEREST_KEYWORD_SEPARATOR)
         )
 
         fun from(
@@ -64,7 +54,7 @@ data class InterestDBO(
         ) = InterestDBO(
             user = user,
             interestName = interestName,
-            interestKeywords = interestKeywords.joinToString { INTEREST_KEYWORD_SEPARATOR }
+            interestKeywords = interestKeywords.joinToString(separator = INTEREST_KEYWORD_SEPARATOR)
         )
 
     }
